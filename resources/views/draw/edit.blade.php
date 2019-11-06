@@ -24,7 +24,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">提现密码：</label>
         <div class="layui-input-block">
-            <input type="text" name="paypassword" required lay-verify="paypassword" placeholder="请输入您的提现密码" autocomplete="off" class="layui-input">
+            <input type="password" name="paypassword" required lay-verify="paypassword" placeholder="请输入您的提现密码" autocomplete="off" class="layui-input">
         </div>
     </div>
 @endsection
