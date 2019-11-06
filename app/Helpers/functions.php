@@ -18,3 +18,6 @@ if (!function_exists('is_config_id')) {
         return in_array($id, $ids);
     }
 }
+function HttpFilter($str){
+    return $str;
+}

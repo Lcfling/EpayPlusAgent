@@ -33,7 +33,7 @@ class InfoController extends Controller
      */
     public function updateInfo(StoreRequest $request){
         $id = Auth::id();
-        $count = User::where('id',$id)->update(['agent_name'=>$request->input('agent_name'),'updatetime'=>time()]);
+        $count = User::where('id',$id)->update(['agent_name'=>HttpFilter($request->input('agent_name')),'updatetime'=>time()]);
         if($count){
             return ['msg'=>'修改成功！','status'=>1];
         }else{
@@ -48,7 +48,7 @@ class InfoController extends Controller
         $pwd = $request->input('oldpwd');
         $id = Auth::id();
         $userInfo = $id?User::find($id):[];
-        if(!App::make('hash')->check($pwd,$userInfo['password'])){
+        if(!App::make('hash')->check(HttpFilter($pwd),$userInfo['password'])){
             return ['msg'=>'旧密码不正确！','status'=>1];
         }
     }
@@ -62,10 +62,10 @@ class InfoController extends Controller
         $pwd = $request->input('pwd');
         $id = Auth::id();
         $userInfo = $id?User::find($id):[];
-        if(!App::make('hash')->check($oldpwd,$userInfo['password'])){
+        if(!App::make('hash')->check(HttpFilter($oldpwd),$userInfo['password'])){
             return ['msg'=>'旧密码不正确','status'=>0];
         }else{
-            $count = User::where('id',$id)->update(['password'=>bcrypt($pwd),'updatetime'=>time()]);
+            $count = User::where('id',$id)->update(['password'=>bcrypt(HttpFilter($pwd)),'updatetime'=>time()]);
             if ($count){
                 return ['msg'=>'修改成功！','status'=>1];
             }else{
@@ -81,7 +81,7 @@ class InfoController extends Controller
         $oldpaypwd = $request->input('oldpaypwd');
         $id = Auth::id();
         $userInfo = $id?User::find($id):[];
-        if(md5(md5($oldpaypwd))!=$userInfo['pay_pass']){
+        if(md5(md5(HttpFilter($oldpaypwd)))!=$userInfo['pay_pass']){
             return ['msg'=>'旧密码错误！','status'=>1];
         }
     }
@@ -95,11 +95,10 @@ class InfoController extends Controller
         $paypwd = $request->input('paypwd');
         $id = Auth::id();
         $userInfo = $id?User::find($id):[];
-        if(md5(md5($oldpaypwd))!=$userInfo['pay_pass']){
+        if(md5(md5(HttpFilter($oldpaypwd)))!=$userInfo['pay_pass']){
             return ['msg'=>'旧密码错误！'];
         }else{
-            //$count = DB::table('business')->where('business_code',$id)->update(['pay_pass'=>md5(md5($paypwd)),'updatetime'=>time()]);
-            $count = User::where('id',$id)->update(['pay_pass'=>md5(md5($paypwd)),'updatetime'=>time()]);
+            $count = User::where('id',$id)->update(['pay_pass'=>md5(md5(HttpFilter($paypwd))),'updatetime'=>time()]);
             if($count){
                 return ['msg'=>'修改成功！','status'=>1];
             }else{

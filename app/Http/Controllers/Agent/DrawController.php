@@ -65,8 +65,8 @@ class DrawController extends Controller
                 //开启事物
                 DB::beginTransaction();
                 try{
-                    Agcount::where('agent_id',$id)->decrement('balance',$request->input('money'));
-                    $count = Draw::insert(['agent_id'=>$id,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money'),'creatime'=>time()]);
+                    Agcount::where('agent_id',$id)->decrement('balance',(int)$request->input('money'));
+                    $count = Draw::insert(['agent_id'=>$id,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>(int)$request->input('money'),'creatime'=>time()]);
                     if($count){
                         DB::commit();
                         $this->unlock($id);
