@@ -43,4 +43,14 @@ class BaseController extends Controller
     public function unlock($functions){
         Redis::del("lock_".$functions);
     }
+    public function verifyGooglex($code,$userid,$modle){
+        $userInfo=$modle->getUserInfo($userid);
+        $secret=$code;
+        $google2fa = new Google2FA();
+        if($google2fa->verifyKey($userInfo["ggkey"], $secret)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
