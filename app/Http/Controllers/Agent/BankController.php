@@ -9,7 +9,7 @@ use App\Models\Bank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class BankController extends Controller
+class BankController extends BaseController
 {
     /**
      * 数据列表

@@ -6,11 +6,10 @@ namespace App\Http\Controllers\Agent;
 
 use App\Http\Requests\StoreRequest;
 use App\Models\User;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
-class InfoController extends Controller
+class InfoController extends BaseController
 {
     public function index(){
         $id = Auth::id();

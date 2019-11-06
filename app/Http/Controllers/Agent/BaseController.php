@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Agent;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redis;
 
 class BaseController extends Controller
 {
@@ -24,5 +25,22 @@ class BaseController extends Controller
     protected function resultJson($lang,$res)
     {
         return strstr($lang,'fzs')?['status'=>$res,'msg'=>trans($lang)]:['status'=>$res,'msg'=>$lang];
+    }
+
+    public function lock($functions){
+        $code=time().rand(100000,999999);
+        //随机锁入队
+        Redis::rPush("lock_".$functions,$code);
+        //随机锁出队
+        $codes=Redis::LINDEX("lock_".$functions,0);
+        if ($code != $codes){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function unlock($functions){
+        Redis::del("lock_".$functions);
     }
 }
