@@ -12,7 +12,7 @@
 <body>
 <div class="m-login-bg">
     <div class="m-login">
-        <h3>后台管理系统</h3>
+        <h3>代理商后台管理系统</h3>
         <div class="m-login-warp">
             <form class="layui-form" method="post" action="{{url('/agent/login')}}">
                 {{ csrf_field() }}

@@ -37,4 +37,13 @@ Route::group(['namespace' => "Agent",'middleware' => ['auth']], function () {
     Route::get('/',                     'HomeController@index');
     Route::get('/index',                'HomeController@welcome');
     Route::resource('/menus',           'MenuController');
+    Route::get('/info/userinfo','InfoController@userinfo');
+    Route::post('/info/resInfo','InfoController@updateInfo');
+    Route::post('/info/valPwd','InfoController@valPwd');
+    Route::post('/info/resPwd','InfoController@resPwd');
+    Route::post('/info/valPaypwd','InfoController@valPaypwd');
+    Route::post('/info/resPaypwd','InfoController@resPaypwd');
+    Route::resource('/info','InfoController');
+    Route::resource('/bank','BankController');
+    Route::resource('/draw','DrawController');
 });

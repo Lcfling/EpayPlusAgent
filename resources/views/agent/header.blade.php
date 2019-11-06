@@ -6,8 +6,8 @@
     </div>
     <ul class="layui-nav" lay-filter="rightNav">
         <li class="layui-nav-item">
-            <div class="addBtn hidden-xs" data-desc="管理员信息" data-url="{{url('/admin/userinfo')}}">&nbsp;<i class="layui-icon">&#xe612;</i>&nbsp;管理员&nbsp;</div>
+            <div class="addBtn hidden-xs" data-desc="代理商信息" data-url="{{url('/agent/info/userinfo')}}">&nbsp;<i class="layui-icon">&#xe612;</i>&nbsp;代理商&nbsp;</div>
         </li>
-        <li class="layui-nav-item"><a href="{{url('/admin/logout')}}">退出</a></li>
+        <li class="layui-nav-item"><a href="{{url('/agent/logout')}}">退出</a></li>
     </ul>
 </div>
