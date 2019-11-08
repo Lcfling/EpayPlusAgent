@@ -23,10 +23,14 @@ class DrawController extends BaseController
         $map = array();
         $id = Auth::id();
         $map['agent_id']=$id;
+        if(true==$request->has('status')){
+            $map['status']=$request->input('status');
+        }
         $data = Draw::where($map)->paginate(5)->appends($request->all());
         foreach ($data as $key =>$value){
             $data[$key]['money']=$data[$key]['money']/100;
             $data[$key]['creatime'] =date("Y-m-d H:i:s",$value["creatime"]);
+            $data[$key]['endtime'] = date("Y-m-d H:i:s",$value["endtime"]);
         }
         return view('draw.list',['list'=>$data,'input'=>$request->all()]);
     }

@@ -23,6 +23,9 @@
                     <input type="password" value="{{ old('password') }}" name="password" required lay-verify="password" placeholder="密码" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-item">
+                    <input type="password" value="{{ old('ggkey') }}" name="ggkey" required lay-verify="ggkey" placeholder="谷歌验证码" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-item">
                     <div class="layui-inline">
                         <input type="text" name="verity" lay-verify="verity" placeholder="验证码" autocomplete="off" class="layui-input">
                     </div>
@@ -57,6 +60,7 @@
         form.verify({
             username: [/(.+){2,12}$/, '用户名必须2到12位'],
             password: [/(.+){6,12}$/, '密码必须6到12位'],
+            ggkey:[/^\d{6}$/,'格式错误'],
             verity: [/(.+){4}$/, '验证码必须是4位'],
         });
     });

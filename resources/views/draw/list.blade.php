@@ -4,6 +4,18 @@
     <button class="layui-btn layui-btn-small layui-btn-normal addBtn" data-desc="添加提现申请" data-url="{{url('/agent/draw/0/edit')}}"><i class="layui-icon">&#xe654;</i></button>
     <button class="layui-btn layui-btn-small layui-btn-warm freshBtn"><i class="layui-icon">&#x1002;</i></button>
     </div>
+    <div class="layui-inline">
+        <select name="status">
+            <option value="">请选择账单类型</option>
+            <option value="0" {{isset($input['status'])&&$input['status']=='0'?'selected':''}}>未结算</option>
+            <option value="1" {{isset($input['status'])&&$input['status']=='1'?'selected':''}}>已完成</option>
+            <option value="2" {{isset($input['status'])&&$input['status']=='2'?'selected':''}}>已拒绝</option>
+        </select>
+    </div>
+    <div class="layui-inline">
+        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">搜索</button>
+        <button class="layui-btn layui-btn-normal" id="res">重置</button>
+    </div>
 @endsection
 @section('table')
     <table class="layui-table" lay-even lay-skin="nob">
@@ -70,6 +82,10 @@
             laydate({istoday: true});
             form.render();
             form.on('submit(formDemo)', function(data) {
+            });
+            $('#res').click(function () {
+                $("select[name='status']").val('');
+                $('form').submit();
             });
         });
     </script>

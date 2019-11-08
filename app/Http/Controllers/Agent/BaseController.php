@@ -48,6 +48,9 @@ class BaseController extends Controller
         $userInfo=$modle->getUserInfo($account);
         $secret=$code;
         $google2fa = new Google2FA();
+        /*print_r($userInfo['ggkey']);
+        print_r($code);
+        die();*/
         if($google2fa->verifyKey($userInfo["ggkey"], $secret)){
             return true;
         }else{
