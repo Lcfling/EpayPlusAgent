@@ -18,6 +18,16 @@ if (!function_exists('is_config_id')) {
         return in_array($id, $ids);
     }
 }
+function computeWeek($date,$status = 'true'){
+    date_default_timezone_set('PRC');
+    if($status){
+        $diff = strtotime($date);
+    }else{
+        $diff = $date;
+    }
+    $res = ceil(($diff - 1564934399)/(24*60*60*7));
+    return $res;
+}
 function HttpFilter($str){
     return $str;
 }
