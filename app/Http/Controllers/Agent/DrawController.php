@@ -47,6 +47,7 @@ class DrawController extends BaseController
      * 保存数据
      */
     public function store(StoreRequest $request){
+        $order_sn = time().mt_rand(100000, 999999);
         //获取银行卡id
         $bankid = $request->input('bank_card');
         //获取银行卡信息
@@ -68,7 +69,7 @@ class DrawController extends BaseController
                 DB::beginTransaction();
                 try{
                     Agcount::where('agent_id',$id)->decrement('balance',(int)$request->input('money')*100);
-                    $count = Draw::insert(['agent_id'=>$id,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money')*100,'creatime'=>time()]);
+                    $count = Draw::insert(['agent_id'=>$id,'order_sn'=>$order_sn,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money')*100,'creatime'=>time()]);
                     if($count){
                         DB::commit();
                         $this->unlock($id);
