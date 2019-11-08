@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Agent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
+use PragmaRX\Google2FA\Google2FA;
 
 class BaseController extends Controller
 {
@@ -43,8 +44,8 @@ class BaseController extends Controller
     public function unlock($functions){
         Redis::del("lock_".$functions);
     }
-    public function verifyGooglex($code,$userid,$modle){
-        $userInfo=$modle->getUserInfo($userid);
+    public function verifyGooglex($code,$account,$modle){
+        $userInfo=$modle->getUserInfo($account);
         $secret=$code;
         $google2fa = new Google2FA();
         if($google2fa->verifyKey($userInfo["ggkey"], $secret)){

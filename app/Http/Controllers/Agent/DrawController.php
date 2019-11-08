@@ -25,6 +25,7 @@ class DrawController extends BaseController
         $map['agent_id']=$id;
         $data = Draw::where($map)->paginate(5)->appends($request->all());
         foreach ($data as $key =>$value){
+            $data[$key]['money']=$data[$key]['money']/100;
             $data[$key]['creatime'] =date("Y-m-d H:i:s",$value["creatime"]);
         }
         return view('draw.list',['list'=>$data,'input'=>$request->all()]);
@@ -39,6 +40,7 @@ class DrawController extends BaseController
         $data = Bank::get()->where('agent_id',$id)->where('status',1);
         //获取当前登陆用户余额
         $ageCount = Agcount::where('agent_id',$id)->first();
+        $ageCount['balance'] = $ageCount['balance']/100;
         return view('draw.edit',['info'=>$info,'id'=>$id,'banklist'=>$data,'balance'=>$ageCount]);
     }
     /**
@@ -55,7 +57,7 @@ class DrawController extends BaseController
         $agCount = Agcount::where('agent_id',$id)->first();
         //获取用户信息
         $userInfo = $id?User::find($id):[];
-        if($request->input('money')>$agCount['balance']){
+        if($request->input('money')*100>$agCount['balance']){
             return ['msg'=>'您输入的金额大于余额！请重新输入','status'=>0];
         }else if(md5(md5($request->input('paypassword')))!=$userInfo['pay_pass']){
             return ['msg'=>'提现密码不正确！','status'=>0];
@@ -65,8 +67,8 @@ class DrawController extends BaseController
                 //开启事物
                 DB::beginTransaction();
                 try{
-                    Agcount::where('agent_id',$id)->decrement('balance',(int)$request->input('money'));
-                    $count = Draw::insert(['agent_id'=>$id,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money'),'creatime'=>time()]);
+                    Agcount::where('agent_id',$id)->decrement('balance',(int)$request->input('money')*100);
+                    $count = Draw::insert(['agent_id'=>$id,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money')*100,'creatime'=>time()]);
                     if($count){
                         DB::commit();
                         $this->unlock($id);

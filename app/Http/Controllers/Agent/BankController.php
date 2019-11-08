@@ -20,6 +20,7 @@ class BankController extends BaseController
         $map['agent_id'] = $id;
         $data = Bank::where($map)->paginate(2)->appends($request->all());
         foreach ($data as $key =>$value){
+
             $data[$key]['creatime'] =date("Y-m-d H:i:s",$value["creatime"]);
         }
         return view('bank.list',['list'=>$data,'input'=>$request->all()]);
