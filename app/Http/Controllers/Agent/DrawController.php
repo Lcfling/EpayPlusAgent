@@ -30,7 +30,11 @@ class DrawController extends BaseController
         foreach ($data as $key =>$value){
             $data[$key]['money']=$data[$key]['money']/100;
             $data[$key]['creatime'] =date("Y-m-d H:i:s",$value["creatime"]);
-            $data[$key]['endtime'] = date("Y-m-d H:i:s",$value["endtime"]);
+            if($data[$key]['endtime']!=0){
+                $data[$key]['endtime'] = date("Y-m-d H:i:s",$value["endtime"]);
+            }else{
+                $data[$key]['endtime'] = "";
+            }
         }
         return view('draw.list',['list'=>$data,'input'=>$request->all()]);
     }
@@ -72,16 +76,28 @@ class DrawController extends BaseController
                 //开启事物
                 DB::beginTransaction();
                 try{
-                    Agcount::where('agent_id',$id)->decrement('balance',(int)$request->input('money')*100);
-                    $count = Draw::insert(['agent_id'=>$id,'order_sn'=>$order_sn,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money')*100,'creatime'=>time()]);
-                    if($count){
-                        DB::commit();
+                    $agCon = Agcount::onWriteConnection()->where('agent_id',$id)->first()->lockForUpdate();
+                    if($request->input('money')>$agCon['balance']){
                         $this->unlock($id);
-                        return ['msg'=>'申请成功！请您耐心等待','status'=>1];
+                        return ['msg'=>'您输入的金额大于余额！请重新输入','status'=>0];
                     }else{
-                        DB::rollBack();
-                        $this->unlock($id);
-                        return ['msg'=>'申请失败！请重新填写信息','status'=>0];
+                       $num= Agcount::where('agent_id',$id)->decrement('balance',(int)$request->input('money')*100);
+                       if($num){
+                           $count = Draw::insert(['agent_id'=>$id,'order_sn'=>$order_sn,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money')*100,'creatime'=>time()]);
+                           if($count){
+                               DB::commit();
+                               $this->unlock($id);
+                               return ['msg'=>'申请成功！请您耐心等待','status'=>1];
+                           }else{
+                               DB::rollBack();
+                               $this->unlock($id);
+                               return ['msg'=>'申请失败！请重新填写信息','status'=>0];
+                           }
+                       }else{
+                           DB::rollBack();
+                           $this->unlock($id);
+                           return ['msg'=>'发生异常！请联系管理员！','status'=>0];
+                       }
                     }
                 }catch (Exception $e){
                     DB::rollBack();
