@@ -22,7 +22,9 @@
                 <div class="layui-form-item">
                     <input type="password" value="{{ old('password') }}" name="password" required lay-verify="password" placeholder="密码" autocomplete="off" class="layui-input">
                 </div>
-
+                <div class="layui-form-item">
+                    <input type="password" value="{{ old('ggkey') }}" name="ggkey" required lay-verify="ggkey" placeholder="谷歌验证码" autocomplete="off" class="layui-input">
+                </div>
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <input type="text" name="verity" lay-verify="verity" placeholder="验证码" autocomplete="off" class="layui-input">
