@@ -16,6 +16,7 @@ return [
     ],
     'login' => [
         'false_verify'         =>    '验证码错误',
+        'false_ggkey'          =>    '谷歌验证码错误',
         'login_info'           =>    '后台登陆',
         'root_directory'       =>    '一级菜单'
     ],

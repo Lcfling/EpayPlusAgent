@@ -47,7 +47,7 @@ class LoginController extends BaseController
     {
         $user = new User();
         if(!$this->verifyGooglex($request->input('ggkey'),HttpFilter($request->input('account')),$user)){
-            return redirect('/agent/login')->withErrors([trans('fzs.login.false_verify')]);
+            return redirect('/agent/login')->withErrors([trans('fzs.login.false_ggkey')]);
         }
         if($request->input('verity')==session('code'))return $this->doLogin($request);
         else return redirect('/agent/login')->withErrors([trans('fzs.login.false_verify')]);
