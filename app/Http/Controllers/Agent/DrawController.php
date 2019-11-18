@@ -26,7 +26,7 @@ class DrawController extends BaseController
         if(true==$request->has('status')){
             $map['status']=$request->input('status');
         }
-        $data = Draw::where($map)->paginate(5)->appends($request->all());
+        $data = Draw::where($map)->paginate(10)->appends($request->all());
         foreach ($data as $key =>$value){
             $data[$key]['money']=$data[$key]['money']/100;
             $data[$key]['creatime'] =date("Y-m-d H:i:s",$value["creatime"]);

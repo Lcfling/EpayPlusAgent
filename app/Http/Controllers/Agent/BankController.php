@@ -18,7 +18,7 @@ class BankController extends BaseController
         $map = array();
         $id = Auth::id();
         $map['agent_id'] = $id;
-        $data = Bank::where($map)->paginate(2)->appends($request->all());
+        $data = Bank::where($map)->paginate(10)->appends($request->all());
         foreach ($data as $key =>$value){
 
             $data[$key]['creatime'] =date("Y-m-d H:i:s",$value["creatime"]);
