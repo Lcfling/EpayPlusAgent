@@ -55,7 +55,7 @@ class DrawController extends BaseController
      * 保存数据
      */
     public function store(StoreRequest $request){
-        $order_sn = time().mt_rand(100000, 999999);
+        $order_sn = date("YmdHis",time()).mt_rand(100000, 999999);
         //获取银行卡id
         $bankid = $request->input('bank_card');
         //获取银行卡信息
