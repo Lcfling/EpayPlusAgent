@@ -76,7 +76,7 @@ class DrawController extends BaseController
                 //开启事物
                 DB::beginTransaction();
                 try{
-                    $agCon = Agcount::onWriteConnection()->where('agent_id',$id)->first()->lockForUpdate();
+                    $agCon = Agcount::onWriteConnection()->where('agent_id',$id)->lockForUpdate()->first();
                     if($request->input('money')>$agCon['balance']){
                         $this->unlock($id);
                         return ['msg'=>'您输入的金额大于余额！请重新输入','status'=>0];

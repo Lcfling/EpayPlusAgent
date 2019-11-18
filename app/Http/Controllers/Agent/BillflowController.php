@@ -36,6 +36,20 @@ class BillflowController extends BaseController
             $data = $sql->select('order_sn','score','business_code','status','paycode','remark','creatime')->get()->toArray();
             foreach ($data as $key => $value){
                 $data[$key]['creatime']=date("Y-m_d H:i:s",$value['creatime']);
+                if($data[$key]['status']==1){
+                    $data[$key]['status']="支付";
+                }else if($data[$key]['status']==2){
+                    $data[$key]['status']="利润";
+                }else{
+                    $data[$key]['stuatus']="未知";
+                }
+                if($data[$key]['paycode']==1){
+                    $data[$key]['paycode']="微信";
+                }else if($data[$key]['paycode']==2){
+                    $data[$key]['paycode']="支付宝";
+                }else{
+                    $data[$key]['paycode']="未知";
+                }
             }
             exportExcel($head,$data,$date.'账户流水','',true);
         }
