@@ -46,11 +46,16 @@ class BankController extends BaseController
         $data['deposit_name']=HttpFilter($data['deposit_name']);
         $data['deposit_card']=HttpFilter($data['deposit_card']);
         $data['creatime']=time();
-        $count = Bank::insert($data);
-        if($count){
-            return ['msg'=>'添加成功！','status'=>1];
+        $num = Bank::where('agent_id','=',$id)->where('deposit_card','=',$request->input('deposit_card'))->count();
+        if($num>0){
+            return ['msg'=>'银行卡已存在！','status'=>0];
         }else{
-            return ['msg'=>'添加失败！','status'=>0];
+            $count = Bank::insert($data);
+            if($count){
+                return ['msg'=>'添加成功！','status'=>1];
+            }else{
+                return ['msg'=>'添加失败！','status'=>0];
+            }
         }
     }
 }
