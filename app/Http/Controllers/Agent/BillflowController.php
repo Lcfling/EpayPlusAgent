@@ -34,24 +34,28 @@ class BillflowController extends BaseController
         if(true==$request->input('export')&&true==$request->has('export')){
             $head = array('订单号','积分','商户号','状态','支付类型','备注','创建时间');
             $data = $sql->select('order_sn','score','business_code','status','paycode','remark','creatime')->get()->toArray();
-            foreach ($data as $key => $value){
-                $data[$key]['creatime']=date("Y-m_d H:i:s",$value['creatime']);
-                if($data[$key]['status']==1){
-                    $data[$key]['status']="支付";
-                }else if($data[$key]['status']==2){
-                    $data[$key]['status']="利润";
-                }else{
-                    $data[$key]['stuatus']="未知";
+            if (!$data){
+                echo "<script>alert('暂无数据，无法导出!');location.href='".$_SERVER["HTTP_REFERER"]."';</script>";
+            }else{
+                foreach ($data as $key => $value){
+                    $data[$key]['creatime']=date("Y-m_d H:i:s",$value['creatime']);
+                    if($data[$key]['status']==1){
+                        $data[$key]['status']=" 支付";
+                    }else if($data[$key]['status']==2){
+                        $data[$key]['status']="利润";
+                    }else{
+                        $data[$key]['stuatus']="未知";
+                    }
+                    if($data[$key]['paycode']==1){
+                        $data[$key]['paycode']="微信";
+                    }else if($data[$key]['paycode']==2){
+                        $data[$key]['paycode']="支付宝";
+                    }else{
+                        $data[$key]['paycode']="未知";
+                    }
                 }
-                if($data[$key]['paycode']==1){
-                    $data[$key]['paycode']="微信";
-                }else if($data[$key]['paycode']==2){
-                    $data[$key]['paycode']="支付宝";
-                }else{
-                    $data[$key]['paycode']="未知";
-                }
+                exportExcel($head,$data,$date.'账户流水','',true);
             }
-            exportExcel($head,$data,$date.'账户流水','',true);
         }
         $data =$sql->paginate(10)->appends($request->all());
         foreach ($data as $key =>$value){
