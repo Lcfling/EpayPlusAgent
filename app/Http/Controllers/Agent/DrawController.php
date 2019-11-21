@@ -35,6 +35,7 @@ class DrawController extends BaseController
             }else{
                 $data[$key]['endtime'] = "";
             }
+            $data[$key]['feemoney']=$data[$key]['feemoney']/100;
         }
         return view('draw.list',['list'=>$data,'input'=>$request->all()]);
     }
@@ -49,7 +50,9 @@ class DrawController extends BaseController
         //获取当前登陆用户余额
         $ageCount = Agcount::where('agent_id',$id)->first();
         $ageCount['balance'] = $ageCount['balance']/100;
-        return view('draw.edit',['info'=>$info,'id'=>$id,'banklist'=>$data,'balance'=>$ageCount]);
+        //获取提现手继续
+        $fee = DB::table('admin_options')->where('key','=','one_time_draw')->value('value');
+        return view('draw.edit',['info'=>$info,'id'=>$id,'banklist'=>$data,'balance'=>$ageCount,'fee'=>$fee/100]);
     }
     /**
      * 保存数据
@@ -66,8 +69,10 @@ class DrawController extends BaseController
         $agCount = Agcount::where('agent_id',$id)->first();
         //获取用户信息
         $userInfo = $id?User::find($id):[];
-        if($request->input('money')*100>$agCount['balance']){
-            return ['msg'=>'您输入的金额大于余额！请重新输入','status'=>0];
+        //获取提现手继续
+        $fee = DB::table('admin_options')->where('key','=','one_time_draw')->value('value');
+        if($request->input('money')*100+$fee>$agCount['balance']){
+            return ['msg'=>'余额不足！不能提现！','status'=>0];
         }else if(md5(md5($request->input('paypassword')))!=$userInfo['pay_pass']){
             return ['msg'=>'提现密码不正确！','status'=>0];
         }else{
@@ -77,13 +82,13 @@ class DrawController extends BaseController
                 DB::beginTransaction();
                 try{
                     $agCon = Agcount::onWriteConnection()->where('agent_id',$id)->lockForUpdate()->first();
-                    if($request->input('money')>$agCon['balance']){
+                    if($request->input('money')*100+$fee>$agCon['balance']){
                         $this->unlock($id);
                         return ['msg'=>'您输入的金额大于余额！请重新输入','status'=>0];
                     }else{
-                       $num= Agcount::where('agent_id',$id)->decrement('balance',(int)$request->input('money')*100);
+                       $num= Agcount::where('agent_id',$id)->decrement('balance',(int)$request->input('money')*100+(int)$fee);
                        if($num){
-                           $count = Draw::insert(['agent_id'=>$id,'order_sn'=>$order_sn,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money')*100,'creatime'=>time()]);
+                           $count = Draw::insert(['agent_id'=>$id,'order_sn'=>$order_sn,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money')*100,'creatime'=>time(),'feemoney'=>$fee]);
                            if($count){
                                DB::commit();
                                $this->unlock($id);
