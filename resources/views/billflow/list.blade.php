@@ -22,14 +22,15 @@
             <col class="hidden-xs" width="150">
             <col class="hidden-xs" width="150">
             <col class="hidden-xs" width="150">
+            <col class="hidden-xs" width="150">
         </colgroup>
         <thead>
         <tr>
             <th class="hidden-xs">订单号</th>
-            <th class="hidden-xs">积分</th>
-            <th class="hidden-xs">商户号</th>
+            <th class="hidden-xs">提现金额(￥)</th>
+            <th class="hidden-xs">实际到账金额(￥)</th>
+            <th class="hidden-xs">代理商号</th>
             <th class="hidden-xs">状态</th>
-            <th class="hidden-xs">支付类型</th>
             <th class="hidden-xs">备注</th>
             <th class="hidden-xs">创建时间</th>
         </tr>
@@ -38,20 +39,16 @@
         @foreach($list as $info)
             <tr>
                 <td class="hidden-xs">{{$info['order_sn']}}</td>
-                <td>{{$info['score']}}</td>
+                <td class="hidden-xs">{{$info['score']/100}}</td>
+                <td class="hidden-xs">{{$info['tradeMoney']/100}}</td>
                 <td class="hidden-xs">{{$info['agent_id']}}</td>
                 <td class="hidden-xs">
                     @if($info['status']==1)
                         支付
                     @elseif($info['status']==2)
                         利润
-                    @endif
-                </td>
-                <td class="hidden-xs">
-                    @if($info['paycode']==1)
-                        微信
-                    @elseif($info['paycode'])
-                        支付宝
+                    @elseif($info['status']==3)
+                        提现
                     @endif
                 </td>
                 <td class="hidden-xs">{{$info['remark']}}</td>
