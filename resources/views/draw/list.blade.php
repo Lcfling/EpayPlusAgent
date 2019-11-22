@@ -29,6 +29,7 @@
             <col class="hidden-xs" width="150">
             <col class="hidden-xs" width="150">
             <col class="hidden-xs" width="150">
+            <col class="hidden-xs" width="150">
         </colgroup>
         <thead>
         <tr>
@@ -36,7 +37,8 @@
             <th class="hidden-xs">姓名</th>
             <th class="hidden-xs">银行卡名称</th>
             <th class="hidden-xs">银行卡号</th>
-            <th class="hidden-xs">结算金额(单位：￥)</th>
+            <th class="hidden-xs">提现总金额(单位：￥)</th>
+            <th class="hidden-xs">实际到账金额(单位：￥)</th>
             <th class="hidden-xs">扣除手续费(单位：￥)</th>
             <th class="hidden-xs">请求时间</th>
             <th class="hidden-xs">结算时间</th>
@@ -51,6 +53,7 @@
                 <td>{{$info['deposit_name']}}</td>
                 <td class="hidden-xs">{{$info['deposit_card']}}</td>
                 <td class="hidden-xs">{{$info['money']}}</td>
+                <td class="hidden-xs">{{$info['tradeMoney']}}</td>
                 <td class="hidden-xs">{{$info['feemoney']}}</td>
                 <td class="hidden-xs">{{$info['creatime']}}</td>
                 <td class="hidden-xs">{{$info['endtime']}}</td>
