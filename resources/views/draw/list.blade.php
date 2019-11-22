@@ -30,6 +30,7 @@
             <col class="hidden-xs" width="150">
             <col class="hidden-xs" width="150">
             <col class="hidden-xs" width="150">
+            <col class="hidden-xs" width="150">
         </colgroup>
         <thead>
         <tr>
@@ -43,6 +44,7 @@
             <th class="hidden-xs">请求时间</th>
             <th class="hidden-xs">结算时间</th>
             <th class="hidden-xs">结算状态</th>
+            <th class="hidden-xs">查看驳回原因</th>
         </tr>
         </thead>
         <tbody>
@@ -64,6 +66,11 @@
                         已完成
                     @else
                         已拒绝
+                    @endif
+                </td>
+                <td class="hidden-xs">
+                    @if($info['status']==2)
+                        <button type="button" class="layui-btn layui-btn-xs" data-desc="{{$info['remark']}}" onclick="showInfo(this)">查看原因</button>
                     @endif
                 </td>
             </tr>
@@ -94,6 +101,22 @@
                 $('form').submit();
             });
         });
+        /**
+         * 查看原因
+         */
+        function showInfo(_this) {
+            //获取驳回信息
+            var info = _this.getAttribute("data-desc");
+            if(info==""||info==null){
+                var msg = "暂无回复！";
+            }else{
+                var msg = info;
+            }
+            layer.open({
+                title: '驳回原因'
+                ,content: msg
+            });
+        }
     </script>
 @endsection
 @extends('common.list')
