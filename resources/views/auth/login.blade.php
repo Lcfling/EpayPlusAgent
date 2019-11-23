@@ -47,6 +47,7 @@
                         <button type="reset" class="layui-btn layui-btn-primary">取消</button>
                     </div>
                 </div>
+                <a href="{{url('/agent/register')}}">绑定谷歌验证码</a>
             </form>
         </div>
         <p class="copyright">Copyright 2017-{{date("Y",time())}} by FZS</p>

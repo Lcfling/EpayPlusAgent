@@ -31,6 +31,11 @@ Route::group(['namespace'  => "Auth"], function () {
     Route::get('/login',                'LoginController@showLoginForm')->name('login');
     Route::post('/login',               'LoginController@login');
     Route::get('/logout',               'LoginController@logout')->name('logout');
+    Route::get('/register',             'BindController@index');
+    Route::post('/valAccount',          'BindController@checkAccount');//效验账号是否存在
+    Route::post('/valUser',             'BindController@checkUserLogin');//效验账号密码的真实性
+    Route::post('/sendSMS',             'BindController@sendSMS');//发送验证码
+    Route::post('/bindCode',            'BindController@bindCode');//绑定加效验
 });
 //后台主要模块
 Route::group(['namespace' => "Agent",'middleware' => ['auth']], function () {
