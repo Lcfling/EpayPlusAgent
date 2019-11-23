@@ -51,7 +51,7 @@
             password: [/(.+){6,12}$/, '密码必须6到12位'],
         });
         $('#res').click(function () {
-            window.location.href="/business/login";
+            window.location.href="/agent/login";
             /*layer.open({
                 type:1,
                 title: false,
