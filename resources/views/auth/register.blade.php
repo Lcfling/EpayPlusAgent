@@ -255,7 +255,7 @@
                             success:function (layero) {
                                 var btn = layero.find('.layui-layer-btn');
                                 btn.find('.layui-layer-btn0').attr({
-                                    href: window.location.host+'/agent/login'
+                                    href:'/agent/login'
                                     ,target: '_blank'
                                 });
                                 new QRCode(document.getElementById("qrcode"), res.url);
