@@ -94,7 +94,7 @@ class InfoController extends BaseController
         $paypwd = $request->input('paypwd');
         $id = Auth::id();
         $userInfo = $id?User::find($id):[];
-        if(md5(md5(HttpFilter($oldpaypwd)))!=$userInfo['pay_pass']){
+        if(md5(md5(HttpFilter($oldpaypwd)))!=HttpFilter($userInfo['pay_pass'])){
             return ['msg'=>'旧密码错误！'];
         }else{
             $count = User::where('id',$id)->update(['pay_pass'=>md5(md5(HttpFilter($paypwd))),'updatetime'=>time()]);

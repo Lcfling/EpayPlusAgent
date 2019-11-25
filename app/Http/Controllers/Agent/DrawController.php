@@ -61,7 +61,7 @@ class DrawController extends BaseController
     public function store(StoreRequest $request){
         $order_sn = date("YmdHis",time()).mt_rand(100000, 999999);
         //获取银行卡id
-        $bankid = $request->input('bank_card');
+        $bankid = HttpFilter($request->input('bank_card'));
         //获取银行卡信息
         $bankInfo = $bankid?Bank::find($bankid):[];
         //获取当前登陆用户的id
@@ -74,7 +74,7 @@ class DrawController extends BaseController
         $fee = DB::table('admin_options')->where('key','=','one_time_draw')->value('value');
         if($request->input('money')*100+$fee>$agCount['balance']){
             return ['msg'=>'余额不足！不能提现！','status'=>0];
-        }else if(md5(md5($request->input('paypassword')))!=$userInfo['pay_pass']){
+        }else if(md5(md5(HttpFilter($request->input('paypassword'))))!=$userInfo['pay_pass']){
             return ['msg'=>'提现密码不正确！','status'=>0];
         }else{
             $lock = $this->lock($id);
@@ -83,18 +83,18 @@ class DrawController extends BaseController
                 DB::beginTransaction();
                 try{
                     $agCon = Agcount::onWriteConnection()->where('agent_id',$id)->lockForUpdate()->first();
-                    if($request->input('money')*100>$agCon['balance']){
+                    if((int)$request->input('money')*100>$agCon['balance']){
                         $this->unlock($id);
                         return ['msg'=>'您输入的金额大于余额！请重新输入','status'=>0];
                     }else{
                        $num= Agcount::where('agent_id',$id)->decrement('balance',(int)$request->input('money')*100);
                        if($num){
-                           $count = Draw::insert(['agent_id'=>$id,'order_sn'=>$order_sn,'name'=>$bankInfo['name'],'deposit_name'=>$bankInfo['deposit_name'],'deposit_card'=>$bankInfo['deposit_card'],'money'=>$request->input('money')*100,'creatime'=>time(),'feemoney'=>$fee,'tradeMoney'=>$request->input('money')*100-$fee]);
+                           $count = Draw::insert(['agent_id'=>$id,'order_sn'=>HttpFilter($order_sn),'name'=>HttpFilter($bankInfo['name']),'deposit_name'=>HttpFilter($bankInfo['deposit_name']),'deposit_card'=>HttpFilter($bankInfo['deposit_card']),'money'=>(int)$request->input('money')*100,'creatime'=>time(),'feemoney'=>$fee,'tradeMoney'=>(int)$request->input('money')*100-$fee]);
                            if($count){
                                $weeksuf = computeWeek(time(),false);
                                $bill = new Billflow();
                                $bill->setTable('agent_billflow_'.$weeksuf);
-                               $res = $bill->insert(['agent_id'=>$id,'order_sn'=>$order_sn,'score'=>(int)-$request->input('money')*100,'tradeMoney'=>(int)$request->input('money')*100-$fee,'status'=>3,'remark'=>'代理商提现扣除','creatime'=>time()]);
+                               $res = $bill->insert(['agent_id'=>$id,'order_sn'=>HttpFilter($order_sn),'score'=>(int)-$request->input('money')*100,'tradeMoney'=>(int)$request->input('money')*100-$fee,'status'=>3,'remark'=>'代理商提现扣除','creatime'=>time()]);
                                if($res){
                                    DB::commit();
                                    $this->unlock($id);
