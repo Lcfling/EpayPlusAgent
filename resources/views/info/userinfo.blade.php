@@ -110,6 +110,9 @@
                 <div class="layui-form-item">
                     <div class="layui-input-block">
                         <button class="layui-btn layui-btn-normal" lay-submit lay-filter="adminPayPassword">立即提交</button>
+                        @if($userinfo['pay_pass']==null || $userinfo['pay_pass']=='')
+                            <input class="layui-btn layui-btn-normal" onclick="setPassword()" value="设置支付密码">
+                        @endif
                     </div>
                 </div>
             </form>
@@ -117,6 +120,7 @@
     </div>
 </div>
 <script src="/static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/admin/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script>
     layui.use(['form','jquery','element'], function(){
         var form = layui.form(),
@@ -270,6 +274,59 @@
             return false;
         });
     });
+    function setPassword() {
+        layer.open({
+            type:1,
+            title: false,
+            closeBtn:false,
+            area: '400px',
+            shade:0.8,
+            id:'LAY_layuipro',//设定一个id,防止重复弹出
+            btn: ['点击关闭'],
+            btnAlign:'c',
+            moveType:1,//拖拽模式 0或1
+            content:'<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' +
+                '<div class="layui-form-item"><input type="password" name="paypasswords" id="paypasswords" placeholder="支付密码" class="layui-input" maxlength="6" oninput="value=value.replace(/[^\\d]/g,\'\')"></div>' +
+                '<div class="layui-form-item"><input type="password" name="newpaypwds" id="newpaypwds" placeholder="确认支付密码" class="layui-input" maxlength="6" oninput="value=value.replace(/[^\\d]/g,\'\')"></div>' +
+                '<div class="layui-form-item">' +
+                '<input type="button" class="layui-btn layui-btn-normal" onclick="submit()" value="确认">' +
+                '</div>' +
+                '</div>',
+            success:function (layero) {
+                var btn = layero.find('.layui-layer-btn');
+
+            }
+        });
+    }
+    function submit() {
+        //获取表单信息
+        var pwd = document.getElementById('paypasswords');
+        var newpwd = document.getElementById('newpaypwds');
+        if(pwd.value!==newpwd.value){
+            layer.msg("两次密码输入不同！",{shift: 6,icon:5});
+        }else{
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('#token').val()
+                },
+                url:"{{url('/agent/info/setPayPwd')}}",
+                data:{
+                    "paypassword":pwd.value
+                },
+                type:"post",
+                dataType:"json",
+                success:function (res) {
+                    if(res.status==1){
+                        layer.msg(res.msg,{icon:6});
+                        var index = parent.layer.getFrameIndex(window.name);
+                        setTimeout('parent.layer.close('+index+')',2000);
+                    }else{
+                        layer.msg(res.msg,{shift: 6,icon:5});
+                    }
+                }
+            });
+        }
+    }
 </script>
 </body>
 </html>

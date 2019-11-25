@@ -30,7 +30,7 @@ function computeWeek($date,$status = 'true'){
     return $res;
 }
 function HttpFilter($str){
-    return $str;
+    return  preg_replace('/\'/', '', str_replace(" ",'',htmlspecialchars($str)));
 }
 /**
 

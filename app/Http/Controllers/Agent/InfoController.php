@@ -105,4 +105,24 @@ class InfoController extends BaseController
             }
         }
     }
+    /**
+     * 设置支付密码
+     */
+    public function setPayPwd(StoreRequest $request){
+        //获取支付密码
+        $paypassword = $request->input('paypassword');
+        //获取认证用户
+        $agent = Auth::id();
+        $userInfo = $agent?User::find($agent):[];
+        if($userInfo['pay_pass']!=null||$userInfo['pay_pass'] != ''){
+            return ['msg'=>'错误！','status'=>0];
+        }else{
+            $count = User::where('id','=',$agent)->update(['pay_pass'=>md5(md5(HttpFilter($paypassword)))]);
+            if($count){
+                return ['msg'=>'设置成功！','status'=>1];
+            }else{
+                return ['msg'=>'设置失败！','status'=>0];
+            }
+        }
+    }
 }

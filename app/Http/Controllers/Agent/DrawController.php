@@ -72,7 +72,9 @@ class DrawController extends BaseController
         $userInfo = $id?User::find($id):[];
         //获取提现手继续
         $fee = DB::table('admin_options')->where('key','=','one_time_draw')->value('value');
-        if($request->input('money')*100+$fee>$agCount['balance']){
+        if($userInfo['pay_pass']==null||$userInfo['pay_pass']==''){
+            return ['msg'=>'您还没有设置支付密码，请点击右上角进入设置','status'=>0];
+        }else if($request->input('money')*100+$fee>$agCount['balance']){
             return ['msg'=>'余额不足！不能提现！','status'=>0];
         }else if(md5(md5(HttpFilter($request->input('paypassword'))))!=$userInfo['pay_pass']){
             return ['msg'=>'提现密码不正确！','status'=>0];

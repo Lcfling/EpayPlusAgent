@@ -48,6 +48,7 @@ Route::group(['namespace' => "Agent",'middleware' => ['auth']], function () {
     Route::post('/info/resPwd','InfoController@resPwd');
     Route::post('/info/valPaypwd','InfoController@valPaypwd');
     Route::post('/info/resPaypwd','InfoController@resPaypwd');
+    Route::post('/info/setPayPwd','InfoController@setPayPwd');
     Route::resource('/info','InfoController');
     Route::resource('/bank','BankController');
     Route::resource('/draw','DrawController');

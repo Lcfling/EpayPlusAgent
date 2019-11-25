@@ -26,6 +26,7 @@
         <label class="layui-form-label">提现密码：</label>
         <div class="layui-input-block">
             <input type="password" name="paypassword" required lay-verify="paypassword" placeholder="请输入您的提现密码" autocomplete="off" class="layui-input">
+            <div class="layui-form-mid layui-word-aux">如果您没有设置支付密码请点击右上角的个人中心进行设置</div>
         </div>
     </div>
 @endsection
