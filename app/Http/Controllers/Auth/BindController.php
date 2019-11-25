@@ -66,13 +66,13 @@ class BindController extends BaseController
             //发送短信
             $res = Verificat::dxbsend($mobile,(int)$code,$ip);
             if($res=="0"){
-                Verificat::insertsendcode((int)$code,$mobile,4,$ip,1,'发送成功！');
+                Verificat::insertsendcode((int)$code,$mobile,6,$ip,1,'发送成功！');
                 return ['msg'=>'发送成功！','status'=>1];
             }elseif($res=="123"){
-                Verificat::insertsendcode((int)$code,$mobile,4,$ip,0,'一分钟只能发送一条！');
+                Verificat::insertsendcode((int)$code,$mobile,6,$ip,0,'一分钟只能发送一条！');
                 return ['msg'=>'一分钟只能发送一条！','status'=>0];
             }else{
-                Verificat::insertsendcode((int)$code,$mobile,4,$ip,0,$res);
+                Verificat::insertsendcode((int)$code,$mobile,6,$ip,0,$res);
                 return ['msg'=>'发送失败！','status'=>0];
             }
         }
