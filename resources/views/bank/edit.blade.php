@@ -17,7 +17,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开户行：</label>
         <div class="layui-input-block">
-            <input type="text" value="{{$info['deposit_name'] or ''}}" id="bank_name" name="deposit_name" required lay-verify="deposit_name" placeholder="请输入2-12位汉字" autocomplete="off" class="layui-input">
+            <input type="text" value="{{$info['deposit_name'] or ''}}" id="bank_name" name="deposit_name" readonly="readonly" required lay-verify="deposit_name" placeholder="此框不需要管，输入完银行卡号后自动填充" autocomplete="off" class="layui-input">
         </div>
     </div>
 @endsection
@@ -32,6 +32,18 @@
             var layer = layui.layer;
             form.verify({
                 name: [/[\u4e00-\u9fa5]{2,30}$/, '请输入正确的姓名'],
+                deposit_card:function (value) {
+                    if(value==null||value==''){
+                        return "银行卡号不能为空！"
+                    }else if(value.length<14&&value.length>19){
+                        return "银行卡格式有误!"
+                    }
+                },
+                deposit_name:function (value) {
+                    if(value==null||value==''){
+                        return "开户行不能为空！"
+                    }
+                }
             });
             $("#bank_idcard").blur(function(){
                 var value=$(this).val();
