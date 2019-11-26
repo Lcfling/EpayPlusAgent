@@ -37,7 +37,7 @@
                             </div>
                         </a>
                     </li>
-                    <li class="col-sm-12 col-md-4 col-xs-12">
+                    {{--<li class="col-sm-12 col-md-4 col-xs-12">
                         <a href="javascript:;" class="clearfix">
                             <div class="icon-bg bg-green f-l">
                                 <span class="iconfont">&#xe605;</span>
@@ -47,7 +47,7 @@
                                 <p><span class="color-green">88</span>数据<span class="iconfont">&#xe60f;</span></p>
                             </div>
                         </a>
-                    </li>
+                    </li>--}}
                 </ul>
             </div>
 
