@@ -29,6 +29,32 @@
             </tr>
         </tbody>
     </table>
+    <table class="layui-table" lay-even lay-skin="nob">
+        <colgroup>
+            <col class="hidden-xs" width="150">
+            <col class="hidden-xs" width="150">
+            <col class="hidden-xs" width="150">
+            <col class="hidden-xs" width="150">
+        </colgroup>
+        <thead>
+        <tr>
+            <th class="hidden-xs">商户ID</th>
+            <th class="hidden-xs">商户名</th>
+            <th class="hidden-xs">代理商费率</th>
+            <th class="hidden-xs">费率</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($data as $data)
+            <tr>
+                <td class="hidden-xs">{{$data['business_code']}}</td>
+                <td class="hidden-xs">{{$data['nickname']}}</td>
+                <td class="hidden-xs">{{$data['agent1_fee']*100}}%</td>
+                <td class="hidden-xs">{{$data['fee']*100}}%</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 @endsection
 @section('js')
     <script>

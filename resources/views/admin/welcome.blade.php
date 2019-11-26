@@ -18,11 +18,11 @@
                     <li class="col-sm-12 col-md-4 col-xs-12">
                         <a href="javascript:;" class="clearfix">
                             <div class="icon-bg bg-org f-l">
-                                <span class="iconfont">&#xe606;</span>
+                                <span class="iconfont">&#xe604;</span>
                             </div>
                             <div class="right-text-con">
-                                <p class="name">会员数</p>
-                                <p><span class="color-org">88</span>数据<span class="iconfont">&#xe628;</span></p>
+                                <p class="name">余额</p>
+                                <p><span class="color-org">{{{$balance['balance']}}}</span>￥<span class="iconfont">&#xe628;</span></p>
                             </div>
                         </a>
                     </li>
@@ -32,8 +32,8 @@
                                 <span class="iconfont">&#xe602;</span>
                             </div>
                             <div class="right-text-con">
-                                <p class="name">文章数</p>
-                                <p><span class="color-blue">88</span>数据<span class="iconfont">&#xe628;</span></p>
+                                <p class="name">今日收益</p>
+                                <p><span class="color-blue">{{$money}}</span>￥<span class="iconfont">&#xe628;</span></p>
                             </div>
                         </a>
                     </li>
@@ -52,7 +52,7 @@
             </div>
 
             <!--服务器信息-->
-            <div class="server-panel panel panel-default">
+            {{--<div class="server-panel panel panel-default">
                 <div class="panel-header">服务器信息</div>
                 <div class="panel-body clearfix">
                     <div class="col-md-2">
@@ -90,7 +90,7 @@
 
                 </div>
             </div>
-        </div>
+        </div>--}}
     </div>
 </div>
 <script src="/static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>

@@ -8,9 +8,13 @@
  */
 namespace App\Http\Controllers\Agent;
 use App\Models\Admin;
+use App\Models\Agcount;
+use App\Models\Billflow;
+use App\Models\User;
 use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 //use App\Http\Controllers\Controller;
@@ -44,7 +48,21 @@ class HomeController extends BaseController
      * 欢迎首页
      */
     public function welcome(){
-        return view('admin.welcome',['sysinfo'=>$this->getSysInfo()]);
+        //获取当前代理商的余额
+        $agent = Auth::id();
+        $balance = Agcount::where('agent_id','=',$agent)->select('balance')->first();
+        //获取今日的收益
+        $time = time();
+        $weeksuf = computeWeek($time,false);
+        $bill = new Billflow();
+        $bill->setTable('agent_billflow_'.$weeksuf);
+        $money = $bill->where('agent_id','=',$agent)->whereBetween('creatime',[$time,strtotime('+1day',$time)])->sum('score');
+        if($money==0){
+            $money=0;
+        }else{
+            $money=$money/100;
+        }
+        return view('admin.welcome',['sysinfo'=>$this->getSysInfo(),'balance'=>$balance,'money'=>$money]);
     }
     /**
      * 排序

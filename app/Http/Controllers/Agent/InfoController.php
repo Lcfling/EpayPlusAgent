@@ -5,16 +5,26 @@ namespace App\Http\Controllers\Agent;
 
 
 use App\Http\Requests\StoreRequest;
+use App\Models\Agent;
+use App\Models\AgentFee;
 use App\Models\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use function MongoDB\BSON\toJSON;
 
 class InfoController extends BaseController
 {
     public function index(){
         $id = Auth::id();
         $info =$id?User::find($id)->first():[];
-        return view('info.list',['list'=>$info]);
+        $data = AgentFee::where('agent1_id','=',$id)->orWhere('agent2_id','=',$id)->leftJoin('business','business.business_code','=','agent_fee.business_code')->select('agent_fee.*','business.nickname','business.fee')->get()->toArray();
+        foreach ($data as $key =>$value){
+            if($data[$key]['agent1_id']!=$id){
+                $data[$key]['agent1_id']=$data[$key]['agent2_id'];
+                $data[$key]['agent1_fee']=$data[$key]['agent2_fee'];
+            }
+        }
+        return view('info.list',['list'=>$info,'data'=>$data]);
     }
 
     /**
@@ -24,7 +34,6 @@ class InfoController extends BaseController
 
         $id = Auth::id();
         $info = $id?User::find($id):[];
-        //die('ssss');
         return view('info.userinfo',['userinfo'=>$info]);
     }
     /**
