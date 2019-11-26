@@ -16,7 +16,7 @@
             <select name="bank_card">
                 <option value="">请选择</option>
                 @foreach($banklist as $info)
-                    <option value="{{$info['id']}}">{{$info['deposit_card']}}</option>
+                    <option value="{{$info['id']}}">{{$info['name']}}────────{{$info['deposit_card']}}────────{{$info['deposit_name']}}</option>
                 @endforeach
             </select>
         </div>

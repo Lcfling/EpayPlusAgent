@@ -32,7 +32,6 @@
             var layer = layui.layer;
             form.verify({
                 name: [/[\u4e00-\u9fa5]{2,30}$/, '请输入正确的姓名'],
-                deposit_card: [/^([1-9]{1})(\d{14}|\d{18})$/, '请输入正确的银行卡号'],
             });
             $("#bank_idcard").blur(function(){
                 var value=$(this).val();
