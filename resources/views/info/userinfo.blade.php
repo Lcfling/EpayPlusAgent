@@ -22,6 +22,12 @@
             <form class="layui-form"  style="width: 90%;padding-top: 20px;" id="info_form">
                 {{ csrf_field() }}
                 <div class="layui-form-item">
+                    <label class="layui-form-label">代理商ID：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="id" readonly="readonly" disabled autocomplete="off" class="layui-input" value="{{$userinfo['id']}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">昵称：</label>
                     <div class="layui-input-block">
                         <input type="text" name="agent_name"  autocomplete="off" class="layui-input" value="{{$userinfo['agent_name']}}">
@@ -302,7 +308,11 @@
         //获取表单信息
         var pwd = document.getElementById('paypasswords');
         var newpwd = document.getElementById('newpaypwds');
-        if(pwd.value!==newpwd.value){
+        if(pwd.value==null || pwd.value==''){
+            layer.msg("密码不能为空！",{shift: 6,icon:5});
+        }else if(newpwd.value==null||newpwd.value==''){
+            layer.msg("确认密码不能为空！",{shift: 6,icon:5});
+        }else if(pwd.value!==newpwd.value){
             layer.msg("两次密码输入不同！",{shift: 6,icon:5});
         }else{
             $.ajax({
