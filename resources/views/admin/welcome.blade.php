@@ -22,7 +22,7 @@
                             </div>
                             <div class="right-text-con">
                                 <p class="name">余额</p>
-                                <p><span class="color-org">{{{$balance['balance']}}}</span>￥<span class="iconfont">&#xe628;</span></p>
+                                <p><span class="color-org">{{{$balance}}}</span>￥<span class="iconfont">&#xe628;</span></p>
                             </div>
                         </a>
                     </li>

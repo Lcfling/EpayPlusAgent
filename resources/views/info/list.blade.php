@@ -44,7 +44,7 @@
             <th class="hidden-xs">商户ID</th>
             <th class="hidden-xs">商户名</th>
             <th class="hidden-xs">代理商费率</th>
-            <th class="hidden-xs">费率</th>
+            <th class="hidden-xs">商户费率</th>
         </tr>
         </thead>
         <tbody>

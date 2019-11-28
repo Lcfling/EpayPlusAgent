@@ -53,4 +53,5 @@ Route::group(['namespace' => "Agent",'middleware' => ['auth']], function () {
     Route::resource('/bank','BankController');
     Route::resource('/draw','DrawController');
     Route::resource('/billflow','BillflowController');
+    Route::resource('/bill','BillController');
 });

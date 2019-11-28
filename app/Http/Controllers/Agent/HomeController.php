@@ -50,7 +50,12 @@ class HomeController extends BaseController
     public function welcome(){
         //获取当前代理商的余额
         $agent = Auth::id();
-        $balance = Agcount::where('agent_id','=',$agent)->select('balance')->first();
+        $balance = (int)Agcount::where('agent_id','=',$agent)->value('balance');
+        if($balance==0){
+            $balance=0;
+        }else{
+            $balance=$balance/100;
+        }
         //获取今日的收益
         $time = time();
         $weeksuf = computeWeek($time,false);
