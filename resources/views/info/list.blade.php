@@ -11,7 +11,6 @@
             <col class="hidden-xs" width="150">
             <col class="hidden-xs" width="150">
             <col class="hidden-xs" width="150">
-            <col class="hidden-xs" width="150">
         </colgroup>
         <thead>
         <tr>
@@ -19,7 +18,6 @@
             <th class="hidden-xs">代理商名称</th>
             <th class="hidden-xs">账号</th>
             <th class="hidden-xs">手机号</th>
-            <th class="hidden-xs">费率</th>
         </tr>
         </thead>
         <tbody>
@@ -28,7 +26,6 @@
                 <td class="hidden-xs">{{$list['agent_name']}}</td>
                 <td class="hidden-xs">{{$list['account']}}</td>
                 <td class="hidden-xs">{{$list['mobile']}}</td>
-                <td class="hidden-xs">{{$list['fee']}}%</td>
             </tr>
         </tbody>
     </table>

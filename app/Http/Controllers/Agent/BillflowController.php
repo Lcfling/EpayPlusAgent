@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Agent;
 
 
 use App\Models\Billflow;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,19 +47,12 @@ class BillflowController extends BaseController
                     }else{
                         $data[$key]['stuatus']="未知";
                     }
-                    /*if($data[$key]['paycode']==1){
-                        $data[$key]['paycode']="微信";
-                    }else if($data[$key]['paycode']==2){
-                        $data[$key]['paycode']="支付宝";
-                    }else{
-                        $data[$key]['paycode']="未知";
-                    }*/
                 }
                 exportExcel($head,$data,$date.'账户流水','',true);
             }
         }
-        $data =$sql->paginate(10)->appends($request->all());
-        foreach ($data as $key =>$value){
+        $data =$sql->orderBy('creatime','desc')->paginate(10)->appends($request->all());
+        foreach ($data as $key =>&$value){
             $data[$key]['creatime'] =date("Y-m-d H:i:s",$value["creatime"]);
         }
         return view('billflow.list',['list'=>$data,'input'=>$request->all()]);

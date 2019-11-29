@@ -29,7 +29,7 @@
             <th class="hidden-xs">订单号</th>
             <th class="hidden-xs">订单金额</th>
             <th class="hidden-xs">到账金额</th>
-            <th class="hidden-xs">代理商号</th>
+            <th class="hidden-xs">代理ID</th>
             <th class="hidden-xs">状态</th>
             <th class="hidden-xs">备注</th>
             <th class="hidden-xs">创建时间</th>
@@ -39,16 +39,16 @@
         @foreach($list as $info)
             <tr>
                 <td class="hidden-xs">{{$info['order_sn']}}</td>
-                <td class="hidden-xs">{{$info['score']/100}}</td>
                 <td class="hidden-xs">{{$info['tradeMoney']/100}}</td>
+                <td class="hidden-xs">{{$info['score']/100}}</td>
                 <td class="hidden-xs">{{$info['agent_id']}}</td>
                 <td class="hidden-xs">
                     @if($info['status']==1)
                         支付
                     @elseif($info['status']==2)
-                        利润
+                        <button type="button" class="layui-btn">利润</button>
                     @elseif($info['status']==3)
-                        提现
+                        <button type="button" class="layui-btn layui-btn-warm">提现</button>
                     @endif
                 </td>
                 <td class="hidden-xs">{{$info['remark']}}</td>
@@ -56,10 +56,10 @@
             </tr>
         @endforeach
         </tbody>
-        <div class="page-wrap">
-            {{$list->render()}}
-        </div>
     </table>
+    <div class="page-wrap">
+        {{$list->render()}}
+    </div>
 @endsection
 @section('js')
     <script>
