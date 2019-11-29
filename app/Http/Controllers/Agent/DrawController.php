@@ -9,6 +9,7 @@ use App\Models\Agcount;
 use App\Models\Bank;
 use App\Models\Billflow;
 use App\Models\Draw;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ class DrawController extends BaseController
             $map['status']=$request->input('status');
         }
         $data = Draw::where($map)->orderBy('creatime','desc')->paginate(10)->appends($request->all());
-        foreach ($data as $key =>$value){
+        foreach ($data as $key =>&$value){
             $data[$key]['money']=$data[$key]['money']/100;
             $data[$key]['creatime'] =date("Y-m-d H:i:s",$value["creatime"]);
             if($data[$key]['endtime']!=0){
@@ -36,11 +37,15 @@ class DrawController extends BaseController
             }else{
                 $data[$key]['endtime'] = "";
             }
+
             $data[$key]['tradeMoney']=$data[$key]['tradeMoney']/100;
             $data[$key]['feemoney']=$data[$key]['feemoney']/100;
         }
         return view('draw.list',['list'=>$data,'input'=>$request->all()]);
     }
+
+
+
     /**
      * 编辑
      */
@@ -97,7 +102,7 @@ class DrawController extends BaseController
                                $weeksuf = computeWeek(time(),false);
                                $bill = new Billflow();
                                $bill->setTable('agent_billflow_'.$weeksuf);
-                               $res = $bill->insert(['agent_id'=>$id,'order_sn'=>HttpFilter($order_sn),'score'=>-(int)$request->input('money')*100,'tradeMoney'=>+(int)$request->input('money')*100-(int)$fee,'status'=>3,'remark'=>'代理商提现扣除','creatime'=>time()]);
+                               $res = $bill->insert(['agent_id'=>$id,'order_sn'=>HttpFilter($order_sn),'score'=>-(int)$request->input('money')*100-(int)$fee,'status'=>3,'remark'=>'代理商提现扣除','creatime'=>time()]);
                                if($res){
                                    DB::commit();
                                    $this->unlock($id);
