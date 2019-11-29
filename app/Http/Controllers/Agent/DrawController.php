@@ -36,6 +36,7 @@ class DrawController extends BaseController
             }else{
                 $data[$key]['endtime'] = "";
             }
+            $data[$key]['tradeMoney']=$data[$key]['tradeMoney']/100;
             $data[$key]['feemoney']=$data[$key]['feemoney']/100;
         }
         return view('draw.list',['list'=>$data,'input'=>$request->all()]);
@@ -74,7 +75,7 @@ class DrawController extends BaseController
         $fee = DB::table('admin_options')->where('key','=','one_time_draw')->value('value');
         if($userInfo['pay_pass']==null||$userInfo['pay_pass']==''){
             return ['msg'=>'您还没有设置支付密码，请点击右上角进入设置','status'=>0];
-        }else if($request->input('money')*100+$fee>$agCount['balance']){
+        }else if($request->input('money')*100>$agCount['balance']){
             return ['msg'=>'余额不足！不能提现！','status'=>0];
         }else if(md5(md5(HttpFilter($request->input('paypassword'))))!=$userInfo['pay_pass']){
             return ['msg'=>'提现密码不正确！','status'=>0];
@@ -96,7 +97,7 @@ class DrawController extends BaseController
                                $weeksuf = computeWeek(time(),false);
                                $bill = new Billflow();
                                $bill->setTable('agent_billflow_'.$weeksuf);
-                               $res = $bill->insert(['agent_id'=>$id,'order_sn'=>HttpFilter($order_sn),'score'=>(int)-$request->input('money')*100,'tradeMoney'=>(int)$request->input('money')*100-$fee,'status'=>3,'remark'=>'代理商提现扣除','creatime'=>time()]);
+                               $res = $bill->insert(['agent_id'=>$id,'order_sn'=>HttpFilter($order_sn),'score'=>-(int)$request->input('money')*100,'tradeMoney'=>+(int)$request->input('money')*100-(int)$fee,'status'=>3,'remark'=>'代理商提现扣除','creatime'=>time()]);
                                if($res){
                                    DB::commit();
                                    $this->unlock($id);

@@ -50,6 +50,10 @@ class LoginController extends BaseController
         if($count==0){
             return redirect('/agent/login')->withErrors([trans('fzs.login.false_account')]);
         }
+        $us = User::where('account','=',$request->input('account'))->first();
+        if($us['is_login']==0){
+            return redirect('/agent/login')->withErrors([trans('fzs.login.is_login')]);
+        }
         $user = new User();
         if(!$this->verifyGooglex($request->input('ggkey'),HttpFilter($request->input('account')),$user)){
             return redirect('/agent/login')->withErrors([trans('fzs.login.false_ggkey')]);

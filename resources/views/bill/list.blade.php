@@ -23,7 +23,6 @@
             <th class="hidden-xs">商户费率</th>
             <th class="hidden-xs">成功订单金额</th>
             <th class="hidden-xs">成功率</th>
-            <th class="hidden-xs">商户总利润</th>
         </tr>
         </thead>
         <tbody>
@@ -35,7 +34,6 @@
                 <td class="hidden-xs">{{$data['fee']*100}}%</td>
                 <td class="hidden-xs">{{$data['money']}}</td>
                 <td class="hidden-xs">{{$data['succRate']}}%</td>
-                <td class="hidden-xs">{{$data['tol_sore']}}</td>
             </tr>
         @endforeach
         </tbody>

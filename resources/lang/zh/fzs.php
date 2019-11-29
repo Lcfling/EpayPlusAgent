@@ -15,6 +15,7 @@ return [
         'no_permission'        =>    '没有权限',
     ],
     'login' => [
+        'is_login'             =>    '你账号已被禁止登陆，请联系管理员',
         'false_account'        =>    '账号不存在！请注册',
         'false_verify'         =>    '验证码错误',
         'false_ggkey'          =>    '谷歌验证码错误',

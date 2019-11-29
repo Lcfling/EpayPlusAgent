@@ -27,8 +27,8 @@
         <thead>
         <tr>
             <th class="hidden-xs">订单号</th>
-            <th class="hidden-xs">提现金额(￥)</th>
-            <th class="hidden-xs">实际到账金额(￥)</th>
+            <th class="hidden-xs">订单金额</th>
+            <th class="hidden-xs">到账金额</th>
             <th class="hidden-xs">代理商号</th>
             <th class="hidden-xs">状态</th>
             <th class="hidden-xs">备注</th>

@@ -36,16 +36,12 @@ class BillController extends BaseController
                 $data[$key]['money']=$data[$key]['money']/100;
             }
             //成功率
-            $data[$key]['succRate']= number_format($succNum / $allNum,2) * 100;
-
-            //商户总分
-            //$data[$key]['profit'] = $this->profit($data[$key]['business_code']);
-            $data[$key]['tol_sore'] = $bus[0]['tol_sore'];
-            if($data[$key]['tol_sore']==0){
-                $data[$key]['tol_sore']=0;
-            }else{
-                $data[$key]['tol_sore']=$data[$key]['tol_sore']/100;
+            if($succNum==0 || $allNum==0){
+                $count = 0;
+            }else if($succNum!=0 && $allNum!=0){
+                $count = number_format($succNum / $allNum,2) * 100;
             }
+            $data[$key]['succRate']= $count;
         }
         return view('bill.list',['data'=>$data]);
     }
