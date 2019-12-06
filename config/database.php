@@ -41,21 +41,21 @@ return [
 
         'mysql' => [
             'read' => [
-                'host' => ['47.92.80.31']
+                'host' => ['47.56.153.249']
             ],
-            'write' =>[
-                'host' =>['39.100.237.239']
+            'write' => [
+                'host' => ['47.56.151.208']
             ],
-            'driver' => 'mysql',
-            'database' => env('DB_DATABASE', 'epayplus'),
-            'username' => env('DB_USERNAME', 'epayplus'),
-            'password' => env('DB_PASSWORD', 'lcf2954626'),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
+
+            'sticky'    => false,
+            'driver'    => 'mysql',
+            'database'  => 'orangedb',
+            'username'  => 'orangedb',
+            'password'  => 'KdFsMRK3PAHe4XaD',
+            'charset'   => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => 'zf_',
-            'strict' => true,
-            'engine' => null,
+            'prefix'    => 'zf_',
+
         ],
 
         'pgsql' => [
@@ -114,8 +114,8 @@ return [
 
         'default' => [
 
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
+            'host' => env('REDIS_HOST', '47.56.151.208'),
+            'password' => env('REDIS_PASSWORD', 'orange201912061525'),
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
             'prefix' => "agent_",

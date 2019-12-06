@@ -21,7 +21,8 @@ class Log extends Model
             'log_info'=>$content,
             'log_url'=>$url,
             'log_ip'=>$_SERVER['REMOTE_ADDR'],
-            'log_time'=>date('Y-m-d H:i:s',time())
+            'log_time'=>date('Y-m-d H:i:s',time()),
+            'type'=>3
         ];
         Log::insert($data);
     }

@@ -102,7 +102,7 @@ class DrawController extends BaseController
                                $weeksuf = computeWeek(time(),false);
                                $bill = new Billflow();
                                $bill->setTable('agent_billflow_'.$weeksuf);
-                               $res = $bill->insert(['agent_id'=>$id,'order_sn'=>HttpFilter($order_sn),'score'=>-(int)$request->input('money')*100-(int)$fee,'status'=>3,'remark'=>'代理商提现扣除','creatime'=>time()]);
+                               $res = $bill->insert(['agent_id'=>$id,'order_sn'=>HttpFilter($order_sn),'score'=>-(int)$request->input('money')*100,'tradeMoney'=>(int)$request->input('money')*100-(int)$fee,'status'=>3,'remark'=>'代理商提现扣除','creatime'=>time()]);
                                if($res){
                                    DB::commit();
                                    $this->unlock($id);
