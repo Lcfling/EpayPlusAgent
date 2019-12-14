@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>商户绑定谷歌验证码</title>
+    <title>代理绑定谷歌验证码</title>
     <link rel="stylesheet" type="text/css" href="/static/admin/layui/css/layui.css" />
     <link rel="stylesheet" type="text/css" href="/static/admin/css/login.css" />
 </head>
@@ -12,7 +12,7 @@
 <body>
 <div class="m-login-bg">
     <div class="m-login">
-        <h3>商户绑定谷歌验证码</h3>
+        <h3>代理绑定谷歌验证码</h3>
         <div class="m-login-warp">
             <form class="layui-form" id="form">
                 {{--{{ csrf_field() }}--}}

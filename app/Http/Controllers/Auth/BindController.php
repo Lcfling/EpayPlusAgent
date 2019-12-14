@@ -62,7 +62,7 @@ class BindController extends BaseController
         if($mobile!=$user['mobile']){
             return ['msg'=>'手机号不是您开户时的手机号','status'=>0];
         }else{
-            Redis::set('bind_code'.$mobile,(int)$code,300);
+            Redis::set('bind_code'.$mobile,300,(int)$code);
             //发送短信
             $res = Verificat::dxbsend($mobile,(int)$code,$ip);
             if($res=="0"){
